@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smoke Flow — Laminar to Turbulent</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: #000; height: 100%; }
+    body { overflow-x: scroll; overflow-y: hidden; }
+    #canvas-wrap {
+      height: calc(100vh - 16px); /* leave room for scrollbar */
+      display: flex;
+      align-items: center;
+    }
+    canvas { display: block; }
+    #hud {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 12px;
+      border-radius: 6px;
+      line-height: 1.5;
+      pointer-events: none;
+      user-select: none;
+    }
+    #hud .label { color: rgba(255, 255, 255, 0.3); }
+    #hud .value { color: rgba(255, 255, 255, 0.7); }
+  </style>
+</head>
+<body>
+  <div id="canvas-wrap"></div>
+  <div id="hud"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
