@@ -2,7 +2,7 @@
 
 Real-time GPU simulation of the laminar-to-turbulent flow transition, inspired by wind-tunnel smoke visualization.
 
-https://github.com/user-attachments/assets/placeholder
+**[Live demo](https://raggedr.github.io/smoke-flow/)** — scroll right to explore the transition from order to chaos.
 
 ## What It Does
 
