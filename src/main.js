@@ -1,4 +1,4 @@
-import { setupRenderer, initSimulation, runStep, renderToScreen } from './renderer.js';
+import { setupRenderer, initSimulation, runStep, renderToScreen, zoom } from './renderer.js';
 import { SIM_W, SIM_H, DEFAULTS, advectUniforms, confinementUniforms,
          projectUniforms, smokeUniforms, displayUniforms } from './uniforms.js';
 
@@ -84,6 +84,12 @@ window.addEventListener('keydown', (e) => {
       break;
   }
 });
+
+// --- Zoom (mouse wheel) ---
+window.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  zoom(e.deltaY < 0 ? 1.1 : 1 / 1.1);
+}, { passive: false });
 
 // --- Animation loop ---
 function update() {

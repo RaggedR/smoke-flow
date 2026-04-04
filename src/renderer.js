@@ -166,3 +166,10 @@ export function renderToScreen() {
 export function setStepsPerFrame(n) {
   stepsPerFrame = Math.max(1, Math.min(8, Math.round(n)));
 }
+
+export function zoom(factor) {
+  const canvas = renderer.domElement;
+  const w = Math.round(canvas.width * factor);
+  const h = Math.round(w / (SIM_W / SIM_H));
+  renderer.setSize(w, h);
+}
