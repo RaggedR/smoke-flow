@@ -1,6 +1,6 @@
 import { setupRenderer, initSimulation, runStep, renderToScreen } from './renderer.js';
-import { SIM_W, SIM_H, DEFAULTS, advectUniforms, projectUniforms,
-         smokeUniforms, displayUniforms } from './uniforms.js';
+import { SIM_W, SIM_H, DEFAULTS, advectUniforms, confinementUniforms,
+         projectUniforms, smokeUniforms, displayUniforms } from './uniforms.js';
 
 let paused = false;
 
@@ -69,6 +69,14 @@ window.addEventListener('keydown', (e) => {
     case ' ':
       e.preventDefault();
       paused = !paused;
+      break;
+    case 'c':
+      confinementUniforms.confinementStrength.value =
+        Math.max(0, confinementUniforms.confinementStrength.value - 0.01);
+      break;
+    case 'v':
+      confinementUniforms.confinementStrength.value =
+        Math.min(0.3, confinementUniforms.confinementStrength.value + 0.01);
       break;
     case 'r':
     case 'R':

@@ -11,6 +11,7 @@ uniform vec2 resolution;
 uniform float dt;
 uniform float smokeDecay;
 uniform float time;
+uniform float hScale;
 
 varying vec2 vUv;
 
@@ -31,27 +32,27 @@ void main() {
   // Bands are concentrated around the jet center (y=0.5) within the jet width
   if (vUv.x < tx.x * 3.0) {
     float y = vUv.y;
-    float bandWidth = 0.004;
+    float bandWidth = 0.004 * hScale;
     float intensity = 0.7;
-    float spacing = 0.025;
+    float sp = 0.025 * hScale;
 
     // Upper streams → R channel (5 bands above center)
     for (float i = 0.0; i < 5.0; i++) {
-      float center = 0.54 + i * spacing;
+      float center = 0.5 + (0.04 + i * 0.025) * hScale;
       float d = abs(y - center) / bandWidth;
       smoke.r += intensity * exp(-d * d);
     }
 
     // Middle streams → G channel (5 bands around center)
     for (float i = 0.0; i < 5.0; i++) {
-      float center = 0.44 + i * spacing;
+      float center = 0.5 + (-0.06 + i * 0.025) * hScale;
       float d = abs(y - center) / bandWidth;
       smoke.g += intensity * exp(-d * d);
     }
 
     // Lower streams → B channel (5 bands below center)
     for (float i = 0.0; i < 5.0; i++) {
-      float center = 0.34 + i * spacing;
+      float center = 0.5 + (-0.16 + i * 0.025) * hScale;
       float d = abs(y - center) / bandWidth;
       smoke.b += intensity * exp(-d * d);
     }

@@ -92,12 +92,19 @@ npm run preview  # Preview production build
 | `pertFreq` | 3.0 | Seeds N KH billows across jet height |
 | `smokeDecay` | 0.9995 | Per-step decay. Lower → smoke fades before reaching right edge |
 
-Re = uJet × jetWidth × SIM_H / nu. Current: 2.0 × 0.18 × 256 / 0.0008 ≈ 115,200.
+Re = uJet × jetWidth × SIM_H / nu. Current: 2.0 × 0.06 × 768 / 0.0008 ≈ 115,200.
+
+### Domain Expansion
+SIM_H can be increased beyond SIM_H_REF (256) to give the turbulent plume more vertical room. The jet parameters auto-scale: `jetWidth *= SIM_H_REF/SIM_H`, `pertFreq *= SIM_H/SIM_H_REF`, keeping the jet at the same texel width (46 texels) in a bigger domain.
+
+### Vorticity Confinement
+Optional confinement (Fedkiw 2001) re-concentrates vorticity that numerical diffusion smears. Applied between advection and pressure solve. Controlled interactively via V/C keys. Ramps spatially: zero in laminar region, builds through turbulent, tapers before outlet.
 
 ## Controls
 
 - **Up/Down arrows**: Adjust viscosity (Re)
 - **Left/Right arrows**: Adjust flow speed
+- **V/C**: Increase/decrease vorticity confinement (wateriness)
 - **1/2/3**: Wind-tunnel / infrared / monochrome color schemes
 - **Space**: Pause
 - **R**: Reset simulation

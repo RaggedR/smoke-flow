@@ -6,12 +6,13 @@ import advectFrag from './shaders/advect.frag.glsl';
 import divergenceFrag from './shaders/divergence.frag.glsl';
 import pressureFrag from './shaders/pressure.frag.glsl';
 import projectFrag from './shaders/project.frag.glsl';
+import confinementFrag from './shaders/confinement.frag.glsl';
 import smokeFrag from './shaders/smoke.frag.glsl';
 import displayFrag from './shaders/display.frag.glsl';
 
 import {
-  initUniforms, advectUniforms, divergenceUniforms, pressureUniforms,
-  projectUniforms, smokeUniforms, displayUniforms
+  initUniforms, advectUniforms, confinementUniforms, divergenceUniforms,
+  pressureUniforms, projectUniforms, smokeUniforms, displayUniforms
 } from './uniforms.js';
 
 function makeMat(uniforms, fragmentShader) {
@@ -26,6 +27,7 @@ function makeMat(uniforms, fragmentShader) {
 
 export const initMaterial = makeMat(initUniforms, initFrag);
 export const advectMaterial = makeMat(advectUniforms, advectFrag);
+export const confinementMaterial = makeMat(confinementUniforms, confinementFrag);
 export const divergenceMaterial = makeMat(divergenceUniforms, divergenceFrag);
 export const pressureMaterial = makeMat(pressureUniforms, pressureFrag);
 export const projectMaterial = makeMat(projectUniforms, projectFrag);

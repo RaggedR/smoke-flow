@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { SIM_W, SIM_H, JACOBI_ITERS, STEPS_PER_FRAME,
-         advectUniforms, divergenceUniforms, pressureUniforms,
-         projectUniforms, smokeUniforms, displayUniforms } from './uniforms.js';
-import { initMaterial, advectMaterial, divergenceMaterial, pressureMaterial,
-         projectMaterial, smokeMaterial, displayMaterial } from './materials.js';
+         advectUniforms, confinementUniforms, divergenceUniforms,
+         pressureUniforms, projectUniforms, smokeUniforms,
+         displayUniforms } from './uniforms.js';
+import { initMaterial, advectMaterial, confinementMaterial,
+         divergenceMaterial, pressureMaterial, projectMaterial,
+         smokeMaterial, displayMaterial } from './materials.js';
 
 let camera, scene, mesh, renderer;
 
@@ -38,10 +40,9 @@ export function setupRenderer() {
   mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
   scene.add(mesh);
 
-  // Canvas: full viewport height, width preserves simulation aspect ratio
-  // This creates a wide canvas with horizontal scrollbar for exploring the flow
+  // Canvas: width preserves simulation aspect ratio
   const simAspect = SIM_W / SIM_H;
-  const canvasH = Math.round(window.innerHeight * 0.55);  // 55% of viewport
+  const canvasH = Math.round(window.innerHeight * 0.55);
   const canvasW = Math.round(canvasH * simAspect);
 
   renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: false });
@@ -99,6 +100,15 @@ function step() {
   renderer.setRenderTarget(velocity[1 - curVel]);
   renderer.render(scene, camera);
   curVel = 1 - curVel;
+
+  // Phase 1.5: Gentle vorticity confinement (wateriness)
+  if (confinementUniforms.confinementStrength.value > 0.001) {
+    mesh.material = confinementMaterial;
+    confinementUniforms.tVelocity.value = velocity[curVel].texture;
+    renderer.setRenderTarget(velocity[1 - curVel]);
+    renderer.render(scene, camera);
+    curVel = 1 - curVel;
+  }
 
   // Phase 2: Compute divergence
   mesh.material = divergenceMaterial;
