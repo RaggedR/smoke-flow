@@ -40,10 +40,10 @@ export function setupRenderer() {
   mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
   scene.add(mesh);
 
-  // Canvas: width preserves simulation aspect ratio
+  // Canvas: fit entire simulation in viewport
   const simAspect = SIM_W / SIM_H;
-  const canvasH = Math.round(window.innerHeight * 0.55);
-  const canvasW = Math.round(canvasH * simAspect);
+  const canvasW = Math.round(window.innerWidth * 0.98);
+  const canvasH = Math.round(canvasW / simAspect);
 
   renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: false });
   renderer.setPixelRatio(1);
