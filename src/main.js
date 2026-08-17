@@ -2,6 +2,10 @@ import { setupRenderer, initSimulation, runStep, renderToScreen, zoom } from './
 import { SIM_W, SIM_H, DEFAULTS, advectUniforms, confinementUniforms,
          projectUniforms, smokeUniforms, displayUniforms } from './uniforms.js';
 
+if (window.__isMobile) { /* skip everything — loading screen shows mobile message */ }
+else { init(); }
+
+function init() {
 let paused = false;
 
 const SCHEME_NAMES = ['wind-tunnel', 'infrared', 'monochrome'];
@@ -123,4 +127,4 @@ function update() {
   updateHUD();
   requestAnimationFrame(update);
 }
-
+} // end init
