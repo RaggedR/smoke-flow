@@ -30,9 +30,82 @@
     }
     #hud .label { color: rgba(255, 255, 255, 0.3); }
     #hud .value { color: rgba(255, 255, 255, 0.7); }
+    #loading {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #0a0c1c;
+      z-index: 10000;
+    }
+    #loading-stars {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .spin { animation: rotate 8s linear infinite; transform-origin: center; }
+    .spin-reverse { animation: rotate 12s linear infinite reverse; transform-origin: center; }
+    .pulse { animation: rotate 4s linear infinite, pulse 2s ease-in-out infinite; transform-origin: center; }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    #loading-text {
+      position: absolute;
+      top: calc(50% + 130px); left: 50%;
+      transform: translate(-50%, 0);
+      text-align: center;
+      font-family: Georgia, serif;
+      color: #d4af37;
+      z-index: 1;
+      text-shadow: 0 0 30px rgba(10, 12, 28, 0.9), 0 0 60px rgba(10, 12, 28, 0.8);
+    }
+    #loading-text h1 {
+      font-size: 2.2em;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    #loading-text p {
+      font-size: 1em;
+      color: #aaa;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
+  <div id="loading">
+    <div id="loading-stars">
+      <svg viewBox="0 0 200 200" width="200" height="200">
+        <g>
+          <!-- Outer star — slow clockwise -->
+          <polygon points="100,40 152,70 152,130 100,160 48,130 48,70" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.8">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+          </polygon>
+          <polygon points="100,40 48,130 152,130" fill="none" stroke="#4682b4" stroke-width="1.2" opacity="0.7">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+          </polygon>
+          <polygon points="100,160 48,70 152,70" fill="none" stroke="#4682b4" stroke-width="1.2" opacity="0.7">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+          </polygon>
+          <!-- Inner star — counter-clockwise -->
+          <polygon points="100,65 130,82.5 130,117.5 100,135 70,117.5 70,82.5" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.5">
+            <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="12s" repeatCount="indefinite"/>
+          </polygon>
+          <polygon points="100,65 70,117.5 130,117.5" fill="none" stroke="#87ceeb" stroke-width="1" opacity="0.5">
+            <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="12s" repeatCount="indefinite"/>
+          </polygon>
+          <polygon points="100,135 70,82.5 130,82.5" fill="none" stroke="#87ceeb" stroke-width="1" opacity="0.5">
+            <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="12s" repeatCount="indefinite"/>
+          </polygon>
+          <!-- Centre hexagon — pulse -->
+          <polygon points="100,85 113,92.5 113,107.5 100,115 87,107.5 87,92.5" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.6">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="4s" repeatCount="indefinite"/>
+          </polygon>
+        </g>
+      </svg>
+    </div>
+    <div id="loading-text">
+      <h1>Smoke Flow</h1>
+      <p>Integrating Navier-Stokes equations, please be patient&hellip;</p>
+    </div>
+  </div>
   <div id="canvas-wrap"></div>
   <div id="hud"></div>
   <script type="module" src="/src/main.js"></script>

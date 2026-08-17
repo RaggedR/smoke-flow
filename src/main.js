@@ -7,12 +7,30 @@ let paused = false;
 const SCHEME_NAMES = ['wind-tunnel', 'infrared', 'monochrome'];
 
 // --- Setup ---
-const WARMUP_STEPS = 300;
-const WARMUP_BATCH = 20;  // steps per frame during warmup
-let warmupRemaining = WARMUP_STEPS;
+// Warmup at normal physics — 280 runStep() calls to get flow halfway across.
+// The hexstar loading animation keeps the user entertained.
+const WARMUP_STEPS = 280;
 
 setupRenderer();
 initSimulation();
+
+// Chunked warmup: 2 steps per frame so SVG animations can run between chunks
+let warmupDone = 0;
+function warmupChunk() {
+  const end = Math.min(warmupDone + 1, WARMUP_STEPS);
+  for (let i = warmupDone; i < end; i++) {
+    runStep();
+  }
+  warmupDone = end;
+  if (warmupDone < WARMUP_STEPS) {
+    requestAnimationFrame(warmupChunk);
+  } else {
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.remove();
+    update();
+  }
+}
+requestAnimationFrame(() => requestAnimationFrame(warmupChunk));
 
 // --- HUD ---
 const hud = document.getElementById('hud');
@@ -85,7 +103,7 @@ window.addEventListener('keydown', (e) => {
     case 'r':
     case 'R':
       initSimulation();
-      warmupRemaining = WARMUP_STEPS;
+      for (let i = 0; i < WARMUP_STEPS; i++) runStep();
       break;
   }
 });
@@ -98,14 +116,7 @@ window.addEventListener('wheel', (e) => {
 
 // --- Animation loop ---
 function update() {
-  if (warmupRemaining > 0) {
-    // Fast-forward: run a batch of steps per frame, don't render until done
-    const batch = Math.min(WARMUP_BATCH, warmupRemaining);
-    for (let i = 0; i < batch; i++) {
-      runStep();
-    }
-    warmupRemaining -= batch;
-  } else if (!paused) {
+  if (!paused) {
     runStep();
   }
   renderToScreen();
@@ -113,4 +124,3 @@ function update() {
   requestAnimationFrame(update);
 }
 
-update();
