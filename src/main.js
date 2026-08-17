@@ -7,8 +7,12 @@ let paused = false;
 const SCHEME_NAMES = ['wind-tunnel', 'infrared', 'monochrome'];
 
 // --- Setup ---
+const WARMUP_STEPS = 300;
+const WARMUP_BATCH = 20;  // steps per frame during warmup
+let warmupRemaining = WARMUP_STEPS;
+
 setupRenderer();
-initSimulation(300);
+initSimulation();
 
 // --- HUD ---
 const hud = document.getElementById('hud');
@@ -80,7 +84,8 @@ window.addEventListener('keydown', (e) => {
       break;
     case 'r':
     case 'R':
-      initSimulation(300);
+      initSimulation();
+      warmupRemaining = WARMUP_STEPS;
       break;
   }
 });
@@ -93,7 +98,14 @@ window.addEventListener('wheel', (e) => {
 
 // --- Animation loop ---
 function update() {
-  if (!paused) {
+  if (warmupRemaining > 0) {
+    // Fast-forward: run a batch of steps per frame, don't render until done
+    const batch = Math.min(WARMUP_BATCH, warmupRemaining);
+    for (let i = 0; i < batch; i++) {
+      runStep();
+    }
+    warmupRemaining -= batch;
+  } else if (!paused) {
     runStep();
   }
   renderToScreen();
