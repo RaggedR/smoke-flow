@@ -73,12 +73,10 @@
       color: #aaa;
       font-style: italic;
     }
-    @media (max-height: 600px) {
-      #loading-stars svg { width: 120px; height: 120px; }
-      #loading-text h1 { font-size: 1.5em; }
-      #loading-text p { font-size: 0.85em; }
-      #loading { padding: 20px 16px; }
-    }
+    .mobile #loading-stars svg { width: 120px; height: 120px; }
+    .mobile #loading-text h1 { font-size: 1.4em; margin-bottom: 8px; }
+    .mobile #loading-text p { font-size: 0.85em; }
+    .mobile #loading { padding: 20px 16px; }
   </style>
 </head>
 <body>
@@ -124,6 +122,7 @@
   <script>
   window.__isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 800;
   if (window.__isMobile) {
+    document.body.classList.add('mobile');
     document.getElementById('loading-text').innerHTML =
       '<h1>Smoke Flow</h1><p>This simulation requires a desktop GPU.<br>Please visit on a laptop or desktop.</p>';
   }
