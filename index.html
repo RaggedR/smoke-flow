@@ -10,7 +10,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { background: #000; height: 100%; }
-    body { overflow-x: scroll; overflow-y: hidden; }
+    body { overflow-x: scroll; }
     #canvas-wrap {
       height: calc(100vh - 16px); /* leave room for scrollbar */
       display: flex;
@@ -38,10 +38,11 @@
       top: 0; left: 0; right: 0; bottom: 0;
       background: #0a0c1c;
       z-index: 10000;
+      overflow-y: auto;
     }
     #loading-stars {
       position: absolute;
-      top: 50%; left: 50%;
+      top: 40%; left: 50%;
       transform: translate(-50%, -50%);
     }
     .spin { animation: rotate 8s linear infinite; transform-origin: center; }
@@ -51,8 +52,9 @@
     @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
     #loading-text {
       position: absolute;
-      top: calc(50% + 130px); left: 50%;
+      top: calc(40% + 120px); left: 50%;
       transform: translate(-50%, 0);
+      padding: 0 20px;
       text-align: center;
       font-family: Georgia, serif;
       color: #d4af37;
