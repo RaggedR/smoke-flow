@@ -11,6 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { background: #000; height: 100%; }
     body { overflow-x: scroll; }
+    .mobile, .mobile body { overflow-x: hidden; overflow-y: auto; }
     #canvas-wrap {
       height: calc(100vh - 16px); /* leave room for scrollbar */
       display: flex;
@@ -73,10 +74,17 @@
       color: #aaa;
       font-style: italic;
     }
-    .mobile #loading-stars svg { width: 120px; height: 120px; }
-    .mobile #loading-text h1 { font-size: 1.4em; margin-bottom: 8px; }
-    .mobile #loading-text p { font-size: 0.85em; }
-    .mobile #loading { padding: 20px 16px; }
+    .mobile #loading {
+      position: static;
+      min-height: 100dvh;
+      min-height: 100vh; /* fallback */
+      overflow: visible;
+      padding: 20px 16px;
+    }
+    .mobile #loading-stars svg { width: 140px; height: 140px; }
+    .mobile #loading-text h1 { font-size: 1.6em; margin-bottom: 8px; }
+    .mobile #loading-text p { font-size: 0.9em; }
+    .mobile #canvas-wrap, .mobile #hud { display: none; }
   </style>
   <script type="module" crossorigin src="/smoke-flow/assets/main-BBNkt9_6.js"></script>
 </head>
