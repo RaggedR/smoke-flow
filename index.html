@@ -108,6 +108,17 @@
   </div>
   <div id="canvas-wrap"></div>
   <div id="hud"></div>
-  <script type="module" src="/src/main.js"></script>
+  <script>
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 800) {
+    document.getElementById('loading-text').innerHTML =
+      '<h1>Smoke Flow</h1><p>This simulation requires a desktop GPU.<br>Please visit on a laptop or desktop.</p>';
+    document.getElementById('loading-stars').style.display = '';
+  } else {
+    var s = document.createElement('script');
+    s.type = 'module';
+    s.src = '/src/main.js';
+    document.body.appendChild(s);
+  }
+  </script>
 </body>
 </html>
