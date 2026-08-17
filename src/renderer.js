@@ -69,7 +69,7 @@ export function setupRenderer() {
            makeRT(SIM_W, SIM_H, THREE.LinearFilter)];
 }
 
-export function initSimulation() {
+export function initSimulation(warmupSteps = 0) {
   // Clear pressure, divergence, and smoke
   const clearTargets = [pressure[0], pressure[1], divergence, smoke[0], smoke[1]];
   for (const t of clearTargets) {
@@ -88,6 +88,11 @@ export function initSimulation() {
   curPres = 0;
   curSmoke = 0;
   elapsedTime = 0;
+
+  // Run simulation silently to skip the slow laminar startup
+  for (let i = 0; i < warmupSteps; i++) {
+    step();
+  }
 }
 
 function step() {

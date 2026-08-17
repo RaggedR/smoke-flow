@@ -8,7 +8,7 @@ const SCHEME_NAMES = ['wind-tunnel', 'infrared', 'monochrome'];
 
 // --- Setup ---
 setupRenderer();
-initSimulation();
+initSimulation(300);
 
 // --- HUD ---
 const hud = document.getElementById('hud');
@@ -80,7 +80,7 @@ window.addEventListener('keydown', (e) => {
       break;
     case 'r':
     case 'R':
-      initSimulation();
+      initSimulation(300);
       break;
   }
 });
